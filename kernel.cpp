@@ -1,6 +1,5 @@
-extern "C" void _kernelstart();
-
-extern "C" void _kernelstart() {
-    *(char*)0xb8000 = 'Q';
+void main(){
+    char* video_memory = (char*) 0xb8000;
+    *video_memory = 'X';
     return;
 }

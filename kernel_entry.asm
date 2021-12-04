@@ -1,4 +1,4 @@
 [bits 32]
-[extern _kernelstart]
-call _kernelstart
+[extern _main]
+call _main
 jmp $
