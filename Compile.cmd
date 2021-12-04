@@ -1,12 +1,8 @@
-nasm -f bin "bootloader.asm" -o "bootloader.bin"
-gcc -ffreestanding -m32 -g -c "kernel.cpp" -o "kernel.o"
-nasm "kernel_entry.asm" -f elf -o "kernel_entry.o"
-nasm "zeros.asm" -f bin -o "zeros.bin"
-C:\i386\i386-ld -o "full_kernel.bin" -Ttext 0x1000 "kernel_entry.o" "kernel.o" --oformat binary
-copy "bootloader.bin" + "full_kernel.bin" "raw.bin"
-copy "raw.bin" + "zeros.bin" "Vortex.bin"
-del "raw.bin"
-del "zeros.bin"
-del "bootloader.bin"
-del "kernel.o"
-del "kernel_entry.o"
+nasm "bootloader.asm" -f bin -o "Binaries/boot.bin"
+nasm "kernel_entry.asm" -f elf32 -o "Binaries/kernel_entry.o"
+gcc -ffreestanding -m32 -g -c "kernel.cpp" -o "Binaries/kernel.o"
+nasm "zeros.asm" -f bin -o "Binaries/zeroes.bin"
+
+i386-ld -r -o "Binaries/full_kernel.bin" "Binaries/kernel_entry.o" "Binaries/kernel.o" --oformat binary
+
+copy "Binaries/boot.bin"+"Binaries/full_kernel.bin"+"Binaries/zeroes.bin" "Binaries/OS.bin"
